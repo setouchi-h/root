@@ -1,0 +1,13 @@
+{
+  "name": "root-metadata",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "@types/node": "^20.6.2",
+    "dotenv": "^16.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

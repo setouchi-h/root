@@ -1,0 +1,6 @@
+{
+  "name": "Root",
+  "image": null,
+  "description": "契約:\nこのNFTの所有権は、日々喜びを持ち、笑顔を絶やさない個人にのみ付与されます。本契約の下で、『日々喜びを持ち、笑顔を絶やさない個人』とは、精神的または感情的な状態が不安定でないことを含みます。この条件に違反した場合、本NFTの所有権は無効とされ、没収されます。\n\nCONTRACT:\nThe ownership of this NFT is granted only to individuals who maintain daily joy and never lose a smile. Under this contract, 'individuals who maintain daily joy and never lose a smile' include those with a stable mental and emotional state. In the event of a violation of this condition, ownership of this NFT will be deemed invalid and confiscated.",
+  "attributes": [{ "trait_type": "happiness", "value": 100 }]
+}
