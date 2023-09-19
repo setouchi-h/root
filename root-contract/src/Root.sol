@@ -37,7 +37,7 @@ contract Root is ERC721 {
                         abi.encodePacked(
                             '{"name": "',
                             name(),
-                            '", "description": "An NFT that reflects the owners mood, 100% on Chain!.", "attributes": [{"trait_type": "moodiness", "value": 100}], "image": "',
+                            unicode'", "description": "このNFTの所有権は、日々喜びを持ち、笑顔を絶やさない個人にのみ付与されます。本契約の下で、『日々喜びを持ち、笑顔を絶やさない個人』とは、精神的または感情的な状態が不安定でないことを含みます。この条件に違反した場合、本NFTの所有権は無効とされ、没収されます。", "attributes": [{"trait_type": "happiness", "value": 100}], "image": "',
                             s_imageUri,
                             '"}'
                         )
