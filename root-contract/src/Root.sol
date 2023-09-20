@@ -2,17 +2,18 @@
 pragma solidity ^0.8.20;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 
 contract Root is ERC721 {
     error Root__NonExistentToken();
+    error Root__NotTransferable();
 
     uint256 private s_tokenCounter;
-    string private s_imageUri;
+    string private s_tokenUri;
+    mapping(uint256 => bool) private s_isNoTransferable;
 
-    constructor(string memory imageUri) ERC721("Root", "ROOT") {
+    constructor(string memory tokenUri) ERC721("Root", "ROOT") {
         s_tokenCounter = 0;
-        s_imageUri = imageUri;
+        s_tokenUri = tokenUri;
     }
 
     function mintNft() public {
@@ -20,30 +21,34 @@ contract Root is ERC721 {
         s_tokenCounter++;
     }
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "data:application/json;base64,";
-    }
-
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         if (!_exists(tokenId)) {
             revert Root__NonExistentToken();
         }
 
-        return string(
-            abi.encodePacked(
-                _baseURI(),
-                Base64.encode(
-                    bytes(
-                        abi.encodePacked(
-                            '{"name": "',
-                            name(),
-                            unicode'", "description": "このNFTの所有権は、日々喜びを持ち、笑顔を絶やさない個人にのみ付与されます。本契約の下で、『日々喜びを持ち、笑顔を絶やさない個人』とは、精神的または感情的な状態が不安定でないことを含みます。この条件に違反した場合、本NFTの所有権は無効とされ、没収されます。", "attributes": [{"trait_type": "happiness", "value": 100}], "image": "',
-                            s_imageUri,
-                            '"}'
-                        )
-                    )
-                )
-            )
-        );
+        return s_tokenUri;
+    }
+
+    // Non transferable
+
+    // all transfer functions
+    function _transfer(address from, address to, uint256 tokenId) internal override {
+        if (s_isNoTransferable[tokenId]) {
+            revert Root__NotTransferable();
+        }
+        super._transfer(from, to, tokenId);
+        s_isNoTransferable[tokenId] = true;
+    }
+
+    // approve functions
+    function approve(address to, uint256 tokenId) public override {
+        if (s_isNoTransferable[tokenId]) {
+            revert Root__NotTransferable();
+        }
+        super.approve(to, tokenId);
+    }
+
+    function setApprovalForAll(address, /* operator */ bool /* approved */ ) public pure override {
+        revert Root__NotTransferable();
     }
 }
