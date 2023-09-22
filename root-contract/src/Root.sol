@@ -17,8 +17,8 @@ contract Root is ERC721 {
     }
 
     function mintNft() public {
-        _safeMint(msg.sender, s_tokenCounter);
         s_tokenCounter++;
+        _safeMint(msg.sender, s_tokenCounter);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
