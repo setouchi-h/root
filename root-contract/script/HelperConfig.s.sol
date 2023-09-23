@@ -3,13 +3,14 @@ pragma solidity ^0.8.20;
 
 import {Script} from "forge-std/Script.sol";
 import {Root} from "../src/Root.sol";
+import {ERC6551Registry} from "../src/ERC6551Registry.sol";
 import {ERC6551Account} from "../src/ERC6551Account.sol";
 
 contract HelperConfig is Script {
     struct NetworkConfig {
+        string uri;
+        address erc6551Registry;
         address implementation;
-        address tokenContract;
-        uint256 tokenId;
         uint256 salt;
         bytes initData;
         uint256 deployerKey;
@@ -26,11 +27,12 @@ contract HelperConfig is Script {
         }
     }
 
+    // TODO: 更新
     function getSepoliaConfig() public view returns (NetworkConfig memory) {
         return NetworkConfig({
+            uri: "ipfs://QmdiKMjiabg7YPE5zcgqxDWuCJoP1y7MJSoBhGWsS7AFcu",
+            erc6551Registry: address(0),
             implementation: address(0),
-            tokenContract: address(0),
-            tokenId: 0,
             salt: 0,
             initData: "",
             deployerKey: vm.envUint("PRIVATE_KEY")
@@ -38,20 +40,19 @@ contract HelperConfig is Script {
     }
 
     function getOrCreateAnvilConfig() public returns (NetworkConfig memory) {
-        if (activeNetworkConfig.implementation != address(0) && activeNetworkConfig.tokenContract != address(0)) {
+        if (activeNetworkConfig.erc6551Registry != address(0)) {
             return activeNetworkConfig;
         }
 
         vm.startBroadcast();
+        ERC6551Registry registry = new ERC6551Registry();
         ERC6551Account baseAccount = new ERC6551Account();
-        Root root = new Root("ipfs://QmdiKMjiabg7YPE5zcgqxDWuCJoP1y7MJSoBhGWsS7AFcu");
-        Root(root).mintNft();
         vm.stopBroadcast();
 
         return NetworkConfig({
+            uri: "ipfs://QmdiKMjiabg7YPE5zcgqxDWuCJoP1y7MJSoBhGWsS7AFcu",
+            erc6551Registry: address(registry),
             implementation: address(baseAccount),
-            tokenContract: address(root),
-            tokenId: 1,
             salt: 0,
             initData: "",
             deployerKey: DEFAULT_ANVIL_EKY

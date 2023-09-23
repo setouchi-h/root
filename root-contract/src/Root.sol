@@ -1,24 +1,30 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721A} from "erc721a/contracts/ERC721A.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC6551Registry} from "../src/ERC6551Registry.sol";
 
-contract Root is ERC721 {
+contract Root is ERC721A, Ownable {
     error Root__NonExistentToken();
     error Root__NotTransferable();
 
-    uint256 private s_tokenCounter;
+    uint256 private constant MINT_AMOUNT = 3;
+    uint256 private constant SALT = 0;
+    address private immutable i_erc6551Registry;
+    address private immutable i_erc6551Account;
     string private s_tokenUri;
     mapping(uint256 => bool) private s_isNoTransferable;
 
-    constructor(string memory tokenUri) ERC721("Root", "ROOT") {
-        s_tokenCounter = 0;
+    constructor(string memory tokenUri, address erc6551registry, address erc6551Account) ERC721A("Root", "ROOT") {
         s_tokenUri = tokenUri;
+        i_erc6551Registry = erc6551registry;
+        i_erc6551Account = erc6551Account;
+        _mintERC2309(msg.sender, 1);
     }
 
-    function mintNft() public {
-        s_tokenCounter++;
-        _safeMint(msg.sender, s_tokenCounter);
+    function ownerMint(address to, uint256 amount) external onlyOwner {
+        _safeMint(to, amount);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -29,19 +35,27 @@ contract Root is ERC721 {
         return s_tokenUri;
     }
 
+    function _startTokenId() internal view virtual override returns (uint256) {
+        return 1;
+    }
+
     // Non transferable
 
     // all transfer functions
-    function _transfer(address from, address to, uint256 tokenId) internal override {
+    function transferFrom(address from, address to, uint256 tokenId) public payable override {
         if (s_isNoTransferable[tokenId]) {
             revert Root__NotTransferable();
         }
-        super._transfer(from, to, tokenId);
         s_isNoTransferable[tokenId] = true;
+        super.transferFrom(from, to, tokenId);
+        address tba = ERC6551Registry(i_erc6551Registry).createAccount(
+            i_erc6551Account, block.chainid, address(this), tokenId, SALT, ""
+        );
+        _safeMint(tba, MINT_AMOUNT);
     }
 
     // approve functions
-    function approve(address to, uint256 tokenId) public override {
+    function approve(address to, uint256 tokenId) public payable override {
         if (s_isNoTransferable[tokenId]) {
             revert Root__NotTransferable();
         }

@@ -11,7 +11,7 @@ import {HelperConfig} from "./HelperConfig.s.sol";
 contract MintRoot is Script {
     function mintRoot(address root) public {
         vm.startBroadcast();
-        Root(root).mintNft();
+        Root(root).ownerMint(msg.sender, 1);
         vm.stopBroadcast();
     }
 
@@ -22,11 +22,12 @@ contract MintRoot is Script {
 }
 
 contract CreateTokenBoundAccount is Script {
-    function createTokenBoundAccountUsingConfig(address registry) public {
+    uint256 public intitalTokenId = 1;
+
+    function createTokenBoundAccountUsingConfig(address registry, address root, uint256 tokenId) public {
         HelperConfig helperConfig = new HelperConfig();
-        (address implementation, address tokenContract, uint256 tokenId, uint256 salt, bytes memory initData,) =
-            helperConfig.activeNetworkConfig();
-        createTokenBoundAccount(registry, implementation, tokenContract, tokenId, salt, initData);
+        (,, address implementation, uint256 salt, bytes memory initData,) = helperConfig.activeNetworkConfig();
+        createTokenBoundAccount(registry, implementation, root, tokenId, salt, initData);
     }
 
     function createTokenBoundAccount(
@@ -43,7 +44,15 @@ contract CreateTokenBoundAccount is Script {
     }
 
     function run() external {
+        address root = DevOpsTools.get_most_recent_deployment("Root", block.chainid);
         address registry = DevOpsTools.get_most_recent_deployment("ERC6551Registry", block.chainid);
-        createTokenBoundAccountUsingConfig(registry);
+        createTokenBoundAccountUsingConfig(registry, root, intitalTokenId);
+    }
+}
+
+// TODO: transfer
+contract TransferRoot is Script {
+    function run() external {
+        address root = DevOpsTools.get_most_recent_deployment("Root", block.chainid);
     }
 }
