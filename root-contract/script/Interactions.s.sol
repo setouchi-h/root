@@ -52,7 +52,16 @@ contract CreateTokenBoundAccount is Script {
 
 // TODO: transfer
 contract TransferRoot is Script {
+    address public RECEIVER = makeAddr("receiver");
+
+    function transferRoot(address root) public {
+        vm.startBroadcast();
+        Root(root).transferFrom(msg.sender, RECEIVER, 1);
+        vm.stopBroadcast();
+    }
+
     function run() external {
         address root = DevOpsTools.get_most_recent_deployment("Root", block.chainid);
+        transferRoot(root);
     }
 }
