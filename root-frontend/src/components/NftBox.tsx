@@ -40,8 +40,8 @@ const NftBox: React.FC<NftBoxProps> = ({ tokenURI }) => {
   }, [tokenURI])
 
   return (
-    <Flex align="center" justify="center">
-      <Card width="350px" mt="30" justify="center" align="center">
+    <Flex align="center" justify="center" my="30">
+      <Card width="350px" justify="center" align="center">
         <CardBody>
           <Image src={imageURI} />
           <Stack mt="6" spacing="3">
@@ -54,25 +54,6 @@ const NftBox: React.FC<NftBoxProps> = ({ tokenURI }) => {
             </Text>
           </Stack>
         </CardBody>
-        <CardFooter>
-          {/* <Web3Button
-          contractAddress={marketplaceAddress}
-          contractAbi={marketplaceAbi}
-          action={async (contract) => {
-            await approve({
-              args: [marketplaceAddress, ethers.BigNumber.from((1 * 1e18).toString())],
-            })
-            contract.call("buyItem", [nftAddress, tokenId])
-          }}
-          onError={(error) => console.log(error)}
-          onSuccess={(result) => {
-            console.log(result)
-            console.log("success!")
-          }}
-        >
-          Buy
-        </Web3Button> */}
-        </CardFooter>
       </Card>
     </Flex>
   )

@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useState, useEffect, useRef } from "react"
-import { ChakraProvider, Flex, Text } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
 import "@Biconomy/web3-auth/dist/src/style.css"
 import SocialLogin from "@biconomy/web3-auth"
 import { ChainId } from "@biconomy/core-types"
@@ -12,26 +12,25 @@ import {
 } from "@biconomy/account"
 import { IPaymaster, BiconomyPaymaster } from "@biconomy/paymaster"
 import Header from "../components/Header"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import theme from "../theme"
+import { Route, Routes } from "react-router-dom"
 import networkConfig from "../../constants/networkMapping.json"
 import rootAbi from "../../constants/Root.json"
 import { contractAddressesInterface } from "../types/networkAddress"
+import Home from "./Home"
+import User from "./User"
+import { RootContext, SmartAccountContext } from "../App"
 
-type LayoutProps = {
-  children: React.ReactNode
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC = () => {
   const paymaster: IPaymaster = new BiconomyPaymaster({
     paymasterUrl: import.meta.env.VITE_PAYMASTER_URL,
   })
 
-  const [smartAccount, setSmartAccount] = useState<any>(null)
+  const { smartAccount, setSmartAccount } = useContext(SmartAccountContext)
+  const { setRoot } = useContext(RootContext)
   const [interval, enableInterval] = useState(false)
   const sdkRef = useRef<SocialLogin | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [provider, setProvider] = useState<any>(null)
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
 
   useEffect(() => {
     let configureLogin: any
@@ -110,22 +109,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     enableInterval(false)
   }
 
-  /** コントラクトの作成 */
-  const addresses: contractAddressesInterface = networkConfig
-  const chainId = ChainId.POLYGON_MUMBAI.toString()
-  const rootAddr = addresses[chainId].Root[0]
-  const root = new ethers.Contract(rootAddr, rootAbi, provider)
+  useEffect(() => {
+    /** コントラクトの作成 */
+    if (!provider) return
+    const addresses: contractAddressesInterface = networkConfig
+    const chainId = ChainId.POLYGON_MUMBAI.toString()
+    const rootAddr = addresses[chainId].Root[0]
+    const root = new ethers.Contract(rootAddr, rootAbi, provider)
+    setRoot(root)
+  }, [provider])
 
   return (
     <>
       <Header login={login} logout={logout} smartAccount={smartAccount} isLoading={loading} />
-      {smartAccount ? (
-        <main>{children}</main>
-      ) : (
-        <Flex justify="center" align="center" height="100vh" width="100vw">
-          <Text>Your wallet is not connected!</Text>
-        </Flex>
-      )}
+      <Flex mt="50" align="center" justify="center">
+        {smartAccount ? (
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/user" element={<User />} />
+            </Routes>
+          </main>
+        ) : (
+          <Flex justify="center" align="center" height="100vh" width="100vw">
+            <Text>Your wallet is not connected!</Text>
+          </Flex>
+        )}
+      </Flex>
     </>
   )
 }
