@@ -2149,6 +2149,16 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
+"@fontsource-variable/noto-sans-jp@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-jp/-/noto-sans-jp-5.0.14.tgz#30923a752584e3a8e9918e01cf48d40a51e8e852"
+  integrity sha512-DfwE4hytYe7tPJxccpOiYdOFrO6JJToZAb3jAmjZxcAgUnj4dZqfyY6RSuTsKi6Q9r1skaElnGVT8XmHTl9LDA==
+
+"@fontsource/noto-serif-jp@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-serif-jp/-/noto-serif-jp-5.0.7.tgz#2c7c43c363bee26e147dac84f2acea3fea752b68"
+  integrity sha512-PmSyT38FAgCB1ouqTY7NRfV0kSdVmk/tL4ePKX4HZ890aquJmPCtus1xiqMjf4BjrKdv0qTAcBF3ywoSC/UJAw==
+
 "@gnosis.pm/safe-core-sdk-types@^1.4.0", "@gnosis.pm/safe-core-sdk-types@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-core-sdk-types/-/safe-core-sdk-types-1.7.0.tgz#40b9e922780310bc40783b7cd5ac82b2ffe5a7bc"

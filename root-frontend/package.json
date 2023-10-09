@@ -20,6 +20,8 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource-variable/noto-sans-jp": "^5.0.14",
+    "@fontsource/noto-serif-jp": "^5.0.7",
     "@vitejs/plugin-react": "^4.1.0",
     "ethers": "^5",
     "framer-motion": "^10.16.4",
