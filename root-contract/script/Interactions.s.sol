@@ -9,15 +9,21 @@ import {ERC6551Registry} from "../src/ERC6551Registry.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 
 contract MintRoot is Script {
-    function mintRoot(address root) public {
-        vm.startBroadcast();
+    function mintRootUsingConfig(address root) public {
+        HelperConfig helperConfig = new HelperConfig();
+        (,,,,, uint256 deployerKey) = helperConfig.activeNetworkConfig();
+        mintRoot(root, deployerKey);
+    }
+
+    function mintRoot(address root, uint256 deployerKey) public {
+        vm.startBroadcast(deployerKey);
         Root(root).ownerMint(msg.sender, 1);
         vm.stopBroadcast();
     }
 
     function run() external {
         address root = DevOpsTools.get_most_recent_deployment("Root", block.chainid);
-        mintRoot(root);
+        mintRootUsingConfig(root);
     }
 }
 
@@ -26,8 +32,9 @@ contract CreateTokenBoundAccount is Script {
 
     function createTokenBoundAccountUsingConfig(address registry, address root, uint256 tokenId) public {
         HelperConfig helperConfig = new HelperConfig();
-        (,, address implementation, uint256 salt, bytes memory initData,) = helperConfig.activeNetworkConfig();
-        createTokenBoundAccount(registry, implementation, root, tokenId, salt, initData);
+        (,, address implementation, uint256 salt, bytes memory initData, uint256 deployerKey) =
+            helperConfig.activeNetworkConfig();
+        createTokenBoundAccount(registry, implementation, root, tokenId, salt, initData, deployerKey);
     }
 
     function createTokenBoundAccount(
@@ -36,9 +43,10 @@ contract CreateTokenBoundAccount is Script {
         address tokenContract,
         uint256 tokenId,
         uint256 salt,
-        bytes memory initData
+        bytes memory initData,
+        uint256 deployerKey
     ) public {
-        vm.startBroadcast();
+        vm.startBroadcast(deployerKey);
         ERC6551Registry(registry).createAccount(implementation, block.chainid, tokenContract, tokenId, salt, initData);
         vm.stopBroadcast();
     }

@@ -8,23 +8,45 @@ import {ERC6551Registry} from "../src/ERC6551Registry.sol";
 contract Root is ERC721A, Ownable {
     error Root__NonExistentToken();
     error Root__NotTransferable();
+    error Root__AlreadyOwnRoot();
 
     uint256 private constant MINT_AMOUNT = 3;
     uint256 private constant SALT = 0;
     address private immutable i_erc6551Registry;
     address private immutable i_erc6551Account;
     string private s_tokenUri;
+    mapping(address => uint256) private s_addressToTokenid;
+    mapping(uint256 => address) private s_tokenidToTba;
     mapping(uint256 => bool) private s_isNoTransferable;
 
     constructor(string memory tokenUri, address erc6551registry, address erc6551Account) ERC721A("Root", "ROOT") {
+        uint256 nextTokenId = _nextTokenId();
         s_tokenUri = tokenUri;
         i_erc6551Registry = erc6551registry;
         i_erc6551Account = erc6551Account;
+
+        s_addressToTokenid[msg.sender] = nextTokenId;
         _mintERC2309(msg.sender, 1);
+
+        address tba = ERC6551Registry(i_erc6551Registry).createAccount(
+            i_erc6551Account, block.chainid, address(this), nextTokenId, SALT, ""
+        );
+        s_tokenidToTba[nextTokenId] = tba;
+        s_addressToTokenid[tba] = nextTokenId + 1;
+        _mintERC2309(tba, MINT_AMOUNT);
     }
 
     function ownerMint(address to, uint256 amount) external onlyOwner {
+        uint256 nextTokenId = _nextTokenId();
+        s_addressToTokenid[to] = nextTokenId;
         _safeMint(to, amount);
+
+        address tba = ERC6551Registry(i_erc6551Registry).createAccount(
+            i_erc6551Account, block.chainid, address(this), nextTokenId, SALT, ""
+        );
+        s_tokenidToTba[nextTokenId] = tba;
+        s_addressToTokenid[tba] = nextTokenId + amount;
+        _safeMint(tba, MINT_AMOUNT);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -39,6 +61,14 @@ contract Root is ERC721A, Ownable {
         return 1;
     }
 
+    function getTokenIdFromAddress(address account) public view returns (uint256) {
+        return s_addressToTokenid[account];
+    }
+
+    function getTbaFromTokenId(uint256 tokenId) public view returns (address) {
+        return s_tokenidToTba[tokenId];
+    }
+
     // Non transferable
 
     // all transfer functions
@@ -46,11 +76,20 @@ contract Root is ERC721A, Ownable {
         if (s_isNoTransferable[tokenId]) {
             revert Root__NotTransferable();
         }
+        if (s_addressToTokenid[to] != 0) {
+            revert Root__AlreadyOwnRoot();
+        }
+
         s_isNoTransferable[tokenId] = true;
+
+        s_addressToTokenid[to] = tokenId;
         super.transferFrom(from, to, tokenId);
+
         address tba = ERC6551Registry(i_erc6551Registry).createAccount(
             i_erc6551Account, block.chainid, address(this), tokenId, SALT, ""
         );
+        s_tokenidToTba[tokenId] = tba;
+        s_addressToTokenid[tba] = _nextTokenId();
         _safeMint(tba, MINT_AMOUNT);
     }
 
