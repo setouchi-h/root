@@ -1,6 +1,12 @@
-type TransferProps = {}
+import { useLocation } from "react-router-dom"
 
-const Transfer: React.FC<TransferProps> = () => {
-  return <div>Have a good coding</div>
+interface State {
+  tokenId: number
+}
+
+const Transfer: React.FC = () => {
+  const location = useLocation()
+  const { tokenId } = location.state as State
+  return <div>Have a good coding {tokenId}</div>
 }
 export default Transfer

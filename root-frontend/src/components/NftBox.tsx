@@ -1,21 +1,12 @@
-import {
-  Card,
-  Stack,
-  Heading,
-  CardBody,
-  Divider,
-  CardFooter,
-  Image,
-  Text,
-  Flex,
-} from "@chakra-ui/react"
-import { ethers } from "ethers"
-import { truncateStr } from "../utils/truncateStr"
+import { Card, Stack, Heading, CardBody, Image, Text, Flex } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 
-type NftBoxProps = { tokenURI: string }
+type NftBoxProps = {
+  tokenURI: string
+  tokenId: number
+}
 
-const NftBox: React.FC<NftBoxProps> = ({ tokenURI }) => {
+const NftBox: React.FC<NftBoxProps> = ({ tokenURI, tokenId }) => {
   const [imageURI, setImageURI] = useState<string>("")
   const [tokenName, setTokenName] = useState<string>("")
   const [tokenDescription, setTokenDescription] = useState<string>("")
@@ -40,13 +31,15 @@ const NftBox: React.FC<NftBoxProps> = ({ tokenURI }) => {
   }, [tokenURI])
 
   return (
-    <Flex align="center" justify="center" my="30">
+    <Flex align="center" justify="center" mt="2">
       <Card width="350px" justify="center" align="center">
         <CardBody>
           <Image src={imageURI} />
           <Stack mt="6" spacing="3">
-            <Heading>{tokenName}</Heading>
-            <Text fontSize="md" mt="15">
+            <Heading size="lg">
+              {tokenName} #{tokenId}
+            </Heading>
+            <Text fontSize="md">
               {tokenDescription}
             </Text>
             <Text fontSize="md" color="blue.300">

@@ -19,6 +19,7 @@ import { contractAddressesInterface } from "../types/networkAddress"
 import Home from "./Home"
 import User from "./User"
 import { RootContext, SmartAccountContext } from "../App"
+import Transfer from "./Transfer"
 
 const Layout: React.FC = () => {
   const paymaster: IPaymaster = new BiconomyPaymaster({
@@ -128,11 +129,12 @@ const Layout: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/user" element={<User />} />
+              <Route path="/transfer" element={<Transfer />} />
             </Routes>
           </main>
         ) : (
           <Flex justify="center" align="center" height="100vh" width="100vw">
-            <Text>Your wallet is not connected!</Text>
+            <Text>Please Login</Text>
           </Flex>
         )}
       </Flex>
