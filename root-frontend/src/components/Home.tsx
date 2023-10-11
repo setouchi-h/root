@@ -4,6 +4,8 @@ import NftBox from "./NftBox"
 import { RootContext, SmartAccountContext } from "../App"
 import MiniNftBox from "./MiniNftBox"
 import { Link } from "react-router-dom"
+import ERC6551AccountProxyAbi from "../../constants/ERC6551AccountProxy.json"
+import { ethers } from "ethers"
 
 const Home: React.FC = () => {
   const { smartAccount } = useContext(SmartAccountContext)
@@ -22,7 +24,38 @@ const Home: React.FC = () => {
 
   const getMitama = async () => {
     const tba = await root?.getTbaFromTokenId(tokenId)
+    if (tba === "0x0000000000000000000000000000000000000000") return
+    console.log(tba)
     setTba(tba)
+    // const headers = new Headers()
+    // headers.append("Content-Type", "application/json")
+    // if (import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY) {
+    //   headers.append("authToken", import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY)
+    // }
+    // if (import.meta.env.VITE_BICONOMY_API_KEY) {
+    //   headers.append("apiKey", import.meta.env.VITE_BICONOMY_API_KEY)
+    // }
+    // fetch("https://paymaster-dashboard-backend.prod.biconomy.io/api/v2/public/sdk/smart-contract", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     name: "TBA",
+    //     address: tba,
+    //     abi: JSON.stringify(ERC6551AccountProxyAbi),
+    //     whitelistedMethods: ["fallback"],
+    //   }),
+    //   headers: headers,
+    // })
+    //   .then(async (response) => {
+    //     const data = await response.json()
+    //     if (data.statusCode === 400) {
+    //       return
+    //     }
+    //     return data
+    //   })
+    //   .then((json) => console.log(json))
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
     const startId = (await root?.getTokenIdFromAddress(tba))?.toNumber()
     const tempData: number[] = []
     let currentId = startId
@@ -64,7 +97,7 @@ const Home: React.FC = () => {
         <Wrap ml="5">
           {mitamas.map((tokenId) => (
             <WrapItem key={tokenId}>
-              <Link to={"/transfer"} state={{ tokenId: tokenId, tokenURI: tokenURI, tba: tba }}>
+              <Link to={"/transfer"} state={{ tokenId: tokenId, tokenURI: tokenURI, tbaAddr: tba }}>
                 <MiniNftBox tokenURI={tokenURI} tokenId={tokenId} />
               </Link>
             </WrapItem>

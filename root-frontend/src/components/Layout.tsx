@@ -20,12 +20,20 @@ import Home from "./Home"
 import User from "./User"
 import { ProviderContext, RootContext, SmartAccountContext } from "../App"
 import Transfer from "./Transfer"
+import { Bundler, IBundler } from "@biconomy/bundler"
+
+const paymaster: IPaymaster = new BiconomyPaymaster({
+  paymasterUrl: import.meta.env.VITE_PAYMASTER_URL,
+})
+
+const bundler: IBundler = new Bundler({
+  bundlerUrl:
+    "https://bundler.biconomy.io/api/v2/80001/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+  chainId: ChainId.POLYGON_MUMBAI,
+  entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
+})
 
 const Layout: React.FC = () => {
-  const paymaster: IPaymaster = new BiconomyPaymaster({
-    paymasterUrl: import.meta.env.VITE_PAYMASTER_URL,
-  })
-
   const { smartAccount, setSmartAccount } = useContext(SmartAccountContext)
   const { provider, setProvider } = useContext(ProviderContext)
   const { setRoot } = useContext(RootContext)
@@ -79,6 +87,7 @@ const Layout: React.FC = () => {
       const biconomySmartAccountConfig: BiconomySmartAccountConfig = {
         signer: web3Provider.getSigner(),
         chainId: ChainId.POLYGON_MUMBAI,
+        bundler: bundler,
         paymaster: paymaster,
       }
       let biconomySmartAccount = new BiconomySmartAccount(biconomySmartAccountConfig)
