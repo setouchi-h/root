@@ -36,12 +36,12 @@ const NftBox: React.FC<NftBoxProps> = ({ tokenURI, tokenId }) => {
         <CardBody>
           <Image src={imageURI} />
           <Stack mt="6" spacing="3">
-            <Heading size="lg">
-              {tokenName} #{tokenId}
-            </Heading>
-            <Text fontSize="md">
-              {tokenDescription}
-            </Text>
+            <Flex justify="center" align="center">
+              <Heading size="lg">
+                {tokenName} #{tokenId}
+              </Heading>
+            </Flex>
+            <Text fontSize="md">{tokenDescription}</Text>
             <Text fontSize="md" color="blue.300">
               所有者（Owner）: あなた（You）
             </Text>

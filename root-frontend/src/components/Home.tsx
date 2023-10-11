@@ -10,6 +10,7 @@ const Home: React.FC = () => {
   const { root } = useContext(RootContext)
   const [tokenId, setTokenId] = useState(0)
   const [tokenURI, setTokenURI] = useState("")
+  const [tba, setTba] = useState<string>("")
   const [mitamas, setMitamas] = useState<number[]>([])
 
   const getRoot = async () => {
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
 
   const getMitama = async () => {
     const tba = await root?.getTbaFromTokenId(tokenId)
+    setTba(tba)
     const startId = (await root?.getTokenIdFromAddress(tba))?.toNumber()
     const tempData: number[] = []
     let currentId = startId
@@ -61,9 +63,9 @@ const Home: React.FC = () => {
       <Flex align="center" justify="center" mt="2">
         <Wrap ml="5">
           {mitamas.map((tokenId) => (
-            <WrapItem>
-              <Link to={"/transfer"} state={{ tokenId: tokenId }}>
-                <MiniNftBox key={tokenId} tokenURI={tokenURI} tokenId={tokenId} />
+            <WrapItem key={tokenId}>
+              <Link to={"/transfer"} state={{ tokenId: tokenId, tokenURI: tokenURI, tba: tba }}>
+                <MiniNftBox tokenURI={tokenURI} tokenId={tokenId} />
               </Link>
             </WrapItem>
           ))}
@@ -72,7 +74,7 @@ const Home: React.FC = () => {
     </>
   ) : (
     <Flex justify="center" align="center" height="100vh" width="100vw">
-      <Text>You do NOT have NFT</Text>
+      <Text>You do NOT have Root NFT</Text>
     </Flex>
   )
 }

@@ -15,6 +15,11 @@ export const SmartAccountContext = createContext<{
   setSmartAccount: React.Dispatch<React.SetStateAction<BiconomySmartAccount | null>>
 }>({ smartAccount: null, setSmartAccount: () => {} })
 
+export const ProviderContext = createContext<{
+  provider: ethers.providers.Web3Provider | null
+  setProvider: React.Dispatch<React.SetStateAction<ethers.providers.Web3Provider | null>>
+}>({ provider: null, setProvider: () => {} })
+
 export const RootContext = createContext<{
   root: ethers.Contract | null
   setRoot: React.Dispatch<React.SetStateAction<ethers.Contract | null>>
@@ -22,15 +27,18 @@ export const RootContext = createContext<{
 
 function App() {
   const [smartAccount, setSmartAccount] = useState<BiconomySmartAccount | null>(null)
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
   const [root, setRoot] = useState<ethers.Contract | null>(null)
 
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <SmartAccountContext.Provider value={{ smartAccount, setSmartAccount }}>
-          <RootContext.Provider value={{ root, setRoot }}>
-            <Layout />
-          </RootContext.Provider>
+          <ProviderContext.Provider value={{ provider, setProvider }}>
+            <RootContext.Provider value={{ root, setRoot }}>
+              <Layout />
+            </RootContext.Provider>
+          </ProviderContext.Provider>
         </SmartAccountContext.Provider>
       </BrowserRouter>
     </ChakraProvider>

@@ -18,7 +18,7 @@ import rootAbi from "../../constants/Root.json"
 import { contractAddressesInterface } from "../types/networkAddress"
 import Home from "./Home"
 import User from "./User"
-import { RootContext, SmartAccountContext } from "../App"
+import { ProviderContext, RootContext, SmartAccountContext } from "../App"
 import Transfer from "./Transfer"
 
 const Layout: React.FC = () => {
@@ -27,11 +27,11 @@ const Layout: React.FC = () => {
   })
 
   const { smartAccount, setSmartAccount } = useContext(SmartAccountContext)
+  const { provider, setProvider } = useContext(ProviderContext)
   const { setRoot } = useContext(RootContext)
   const [interval, enableInterval] = useState(false)
   const sdkRef = useRef<SocialLogin | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
 
   useEffect(() => {
     let configureLogin: any

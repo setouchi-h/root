@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image } from "@chakra-ui/react"
+import { Card, CardBody, Flex, Heading, Image } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 
 type MiniNftBoxProps = {
@@ -31,9 +31,11 @@ const MiniNftBox: React.FC<MiniNftBoxProps> = ({ tokenURI, tokenId }) => {
     <Card width="150px" justify="center" align="center">
       <CardBody>
         <Image src={imageURI} />
-        <Heading size="md" mt="2">
-          {tokenName} #{tokenId}
-        </Heading>
+        <Flex justify="center" align="center">
+          <Heading size="md" mt="2">
+            {tokenName} #{tokenId}
+          </Heading>
+        </Flex>
       </CardBody>
     </Card>
   )
