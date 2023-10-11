@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Flex, Heading, Text, Wrap, WrapItem } from "@chakra-ui/react"
+import { Flex, Heading, Spinner, Text, Wrap, WrapItem } from "@chakra-ui/react"
 import NftBox from "./NftBox"
 import { RootContext, SmartAccountContext } from "../App"
 import MiniNftBox from "./MiniNftBox"
@@ -14,15 +14,20 @@ const Home: React.FC = () => {
   const [tokenURI, setTokenURI] = useState("")
   const [tba, setTba] = useState<string>("")
   const [mitamas, setMitamas] = useState<number[]>([])
+  const [isGetRootLoading, setIsGetRootLoading] = useState<boolean>(false)
+  const [isGetMitamaLoading, setIsGetMitamaLoading] = useState<boolean>(false)
 
   const getRoot = async () => {
+    setIsGetRootLoading(true)
     const tokenId = await root?.getTokenIdFromAddress(await smartAccount?.getSmartAccountAddress())
     setTokenId(tokenId.toNumber())
     const tokenUri = await root?.tokenURI(tokenId)
     setTokenURI(tokenUri)
+    setIsGetRootLoading(false)
   }
 
   const getMitama = async () => {
+    setIsGetMitamaLoading(true)
     const tba = await root?.getTbaFromTokenId(tokenId)
     if (tba === "0x0000000000000000000000000000000000000000") return
     console.log(tba)
@@ -71,43 +76,61 @@ const Home: React.FC = () => {
     }
 
     setMitamas(tempData)
+    setIsGetMitamaLoading(false)
   }
 
   useEffect(() => {
     if (!smartAccount) return
     getRoot()
-    getMitama()
-  }, [smartAccount])
-
-  useEffect(() => {
     if (!tokenId) return
     getMitama()
-  }, [tokenId])
+  }, [smartAccount, tokenId])
 
-  return tokenId !== 0 ? (
-    <>
-      <Heading mt="5" ml="5" size="xl">
-        根（ROOT）
-      </Heading>
-      <NftBox tokenURI={tokenURI} tokenId={tokenId} />
-      <Heading mt="5" ml="5" size="xl">
-        分け御霊
-      </Heading>
-      <Flex align="center" justify="center" mt="2">
-        <Wrap ml="5">
-          {mitamas.map((tokenId) => (
-            <WrapItem key={tokenId}>
-              <Link to={"/transfer"} state={{ tokenId: tokenId, tokenURI: tokenURI, tbaAddr: tba }}>
-                <MiniNftBox tokenURI={tokenURI} tokenId={tokenId} />
-              </Link>
-            </WrapItem>
-          ))}
-        </Wrap>
+  return !isGetRootLoading ? (
+    tokenId !== 0 ? (
+      <>
+        <Heading mt="5" ml="5" size="xl">
+          根（ROOT）
+        </Heading>
+        <NftBox tokenURI={tokenURI} tokenId={tokenId} />
+        <Heading mt="5" ml="5" size="xl">
+          分け御霊
+        </Heading>
+        {!isGetMitamaLoading ? (
+          <Flex align="center" justify="center" mt="2">
+            {mitamas.length > 0 ? (
+              <Wrap ml="5">
+                {mitamas.map((tokenId) => (
+                  <WrapItem key={tokenId}>
+                    <Link
+                      to={"/transfer"}
+                      state={{ tokenId: tokenId, tokenURI: tokenURI, tbaAddr: tba }}
+                    >
+                      <MiniNftBox tokenURI={tokenURI} tokenId={tokenId} />
+                    </Link>
+                  </WrapItem>
+                ))}
+              </Wrap>
+            ) : (
+              <Flex justify="center" align="center" mt="2">
+                <Text>You do NOT have 分け御霊</Text>
+              </Flex>
+            )}
+          </Flex>
+        ) : (
+          <Flex justify="center" align="center" mt="2">
+            <Spinner />
+          </Flex>
+        )}
+      </>
+    ) : (
+      <Flex justify="center" align="center" height="100vh" width="100vw">
+        <Text>You do NOT have Root NFT</Text>
       </Flex>
-    </>
+    )
   ) : (
     <Flex justify="center" align="center" height="100vh" width="100vw">
-      <Text>You do NOT have Root NFT</Text>
+      <Spinner size="xl" />
     </Flex>
   )
 }

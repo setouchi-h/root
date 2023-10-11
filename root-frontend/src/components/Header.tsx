@@ -1,16 +1,16 @@
-import { Flex, Heading, Spacer, Button, Box, Text } from "@chakra-ui/react"
-import { truncateStr } from "../utils/truncateStr"
-import { Link } from "react-router-dom"
+import { Flex, Heading, Spacer, Button } from "@chakra-ui/react"
+import { Link, useNavigate } from "react-router-dom"
 import { BiconomySmartAccount } from "@biconomy/account"
 
 type HeaderProps = {
   login: () => void
-  logout: () => void
   smartAccount: BiconomySmartAccount | null
   isLoading: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({ login, logout, smartAccount, isLoading }) => {
+const Header: React.FC<HeaderProps> = ({ login, smartAccount, isLoading }) => {
+  const navigate = useNavigate()
+
   return (
     <Flex
       justify="center"
@@ -36,11 +36,9 @@ const Header: React.FC<HeaderProps> = ({ login, logout, smartAccount, isLoading 
           </Button>
         )}
         {!!smartAccount && (
-          <div>
-            <Button onClick={logout} size="sm" variant="outline" color="white">
-              マイページ
-            </Button>
-          </div>
+          <Button size="sm" variant="outline" color="white" onClick={() => navigate("/user")}>
+            マイページ
+          </Button>
         )}
       </Flex>
     </Flex>

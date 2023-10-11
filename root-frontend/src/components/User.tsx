@@ -1,6 +1,59 @@
-type UserProps = {}
+import { useContext, useEffect, useState } from "react"
+import { SmartAccountContext } from "../App"
+import {
+  Button,
+  Icon,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react"
+import { LogoutContext } from "./Layout"
+import { LinkIcon } from "@chakra-ui/icons"
+import { truncateStr } from "../utils/truncateStr"
 
-const User: React.FC<UserProps> = () => {
-  return <div>Have a good coding</div>
+const User: React.FC = () => {
+  const { logout } = useContext(LogoutContext)
+  const { smartAccount } = useContext(SmartAccountContext)
+  const [address, setAddress] = useState<string>("")
+
+  useEffect(() => {
+    if (!smartAccount) return
+
+    const getAddress = async () => {
+      const address = await smartAccount?.getSmartAccountAddress()
+      setAddress(address)
+    }
+    getAddress()
+  }, [smartAccount])
+
+  return (
+    <Stack direction="column" align="center" justify="center" mt="20" spacing="7">
+      {address ? (
+        <>
+          <Stack direction="row" align="center" spacing="7">
+            <Text>{truncateStr(address, 30)}</Text>
+            <Popover>
+              <PopoverTrigger>
+                <Icon as={LinkIcon} onClick={() => navigator.clipboard.writeText(address)} />
+              </PopoverTrigger>
+              <PopoverContent boxSize="min">
+                <PopoverArrow />
+                <Text fontSize="sm" p="1">
+                  Copied!
+                </Text>
+              </PopoverContent>
+            </Popover>
+          </Stack>
+          <Button onClick={logout}>Logout</Button>
+        </>
+      ) : (
+        <Spinner />
+      )}
+    </Stack>
+  )
 }
 export default User

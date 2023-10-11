@@ -1,6 +1,6 @@
-import React, { useContext } from "react"
+import React, { createContext, useContext } from "react"
 import { useState, useEffect, useRef } from "react"
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Spinner, Text } from "@chakra-ui/react"
 import "@Biconomy/web3-auth/dist/src/style.css"
 import SocialLogin from "@biconomy/web3-auth"
 import { ChainId } from "@biconomy/core-types"
@@ -21,6 +21,11 @@ import User from "./User"
 import { ProviderContext, RootContext, SmartAccountContext } from "../App"
 import Transfer from "./Transfer"
 import { Bundler, IBundler } from "@biconomy/bundler"
+import { set } from "react-hook-form"
+
+export const LogoutContext = createContext<{
+  logout: () => void
+}>({ logout: () => {} })
 
 const paymaster: IPaymaster = new BiconomyPaymaster({
   paymasterUrl: import.meta.env.VITE_PAYMASTER_URL,
@@ -54,6 +59,7 @@ const Layout: React.FC = () => {
   }, [interval])
 
   async function login() {
+    setLoading(true)
     if (!sdkRef.current) {
       const socialLoginSDK = new SocialLogin()
       const signature1 = await socialLoginSDK.whitelistUrl("http://127.0.0.1:5173/")
@@ -71,6 +77,7 @@ const Layout: React.FC = () => {
     if (!sdkRef.current.provider) {
       sdkRef.current.showWallet()
       enableInterval(true)
+      setLoading(false)
     } else {
       setupSmartAccount()
     }
@@ -131,22 +138,30 @@ const Layout: React.FC = () => {
 
   return (
     <>
-      <Header login={login} logout={logout} smartAccount={smartAccount} isLoading={loading} />
-      <Flex mt="50" align="center" justify="center">
-        {smartAccount ? (
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/user" element={<User />} />
-              <Route path="/transfer" element={<Transfer />} />
-            </Routes>
-          </main>
+      <LogoutContext.Provider value={{ logout: logout }}>
+        <Header login={login} smartAccount={smartAccount} isLoading={loading} />
+        {!loading ? (
+          <Flex mt="50" align="center" justify="center">
+            {smartAccount ? (
+              <main>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/user" element={<User />} />
+                  <Route path="/transfer" element={<Transfer />} />
+                </Routes>
+              </main>
+            ) : (
+              <Flex justify="center" align="center" height="100vh" width="100vw">
+                <Text>Please Login</Text>
+              </Flex>
+            )}
+          </Flex>
         ) : (
           <Flex justify="center" align="center" height="100vh" width="100vw">
-            <Text>Please Login</Text>
+            <Spinner size="xl" />
           </Flex>
         )}
-      </Flex>
+      </LogoutContext.Provider>
     </>
   )
 }
