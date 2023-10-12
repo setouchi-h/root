@@ -1,9 +1,6 @@
 // import "./App.css"
-// import "@fontsource/noto-serif-jp"
-// import "@fontsource-variable/noto-sans-jp"
 import { ChakraProvider } from "@chakra-ui/react"
 import "@biconomy/web3-auth/dist/src/style.css"
-import theme from "./theme"
 import Layout from "./components/Layout"
 import { createContext, useState } from "react"
 import { BiconomySmartAccount } from "@biconomy/account"
@@ -31,7 +28,7 @@ function App() {
   const [root, setRoot] = useState<ethers.Contract | null>(null)
 
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <BrowserRouter>
         <SmartAccountContext.Provider value={{ smartAccount, setSmartAccount }}>
           <ProviderContext.Provider value={{ provider, setProvider }}>
