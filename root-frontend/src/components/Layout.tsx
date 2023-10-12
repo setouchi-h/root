@@ -62,14 +62,14 @@ const Layout: React.FC = () => {
       const socialLoginSDK = new SocialLogin()
       const signature1 = await socialLoginSDK.whitelistUrl("http://127.0.0.1:5173/")
       const signature2 = await socialLoginSDK.whitelistUrl("http://localhost:5173/")
-      const signature3 = await socialLoginSDK.whitelistUrl("https://root-nezu.vercel.app/")
+      // const signature3 = await socialLoginSDK.whitelistUrl("https://root-nezu.vercel.app/")
       await socialLoginSDK.init({
         chainId: ethers.utils.hexValue(ChainId.POLYGON_MUMBAI).toString(),
         network: "testnet",
         whitelistUrls: {
           "http://127.0.0.1:5173/": signature1,
           "http://localhost:5173/": signature2,
-          "https://root-nezu.vercel.app/": signature3,
+          // "https://root-nezu.vercel.app/": signature3,
         },
       })
       sdkRef.current = socialLoginSDK
