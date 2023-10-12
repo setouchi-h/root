@@ -39,14 +39,14 @@ contract Root is ERC721A, Ownable {
     function ownerMint(address to, uint256 amount) external onlyOwner {
         uint256 nextTokenId = _nextTokenId();
         s_addressToTokenid[to] = nextTokenId;
-        _safeMint(to, amount);
+        _mint(to, amount);
 
         address tba = ERC6551Registry(i_erc6551Registry).createAccount(
             i_erc6551Account, block.chainid, address(this), nextTokenId, SALT, ""
         );
         s_tokenidToTba[nextTokenId] = tba;
         s_addressToTokenid[tba] = nextTokenId + amount;
-        _safeMint(tba, MINT_AMOUNT);
+        _mint(tba, MINT_AMOUNT);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -76,7 +76,7 @@ contract Root is ERC721A, Ownable {
         if (s_isNoTransferable[tokenId]) {
             revert Root__NotTransferable();
         }
-        if (s_addressToTokenid[to] != 0) {
+        if (balanceOf(to) != 0) {
             revert Root__AlreadyOwnRoot();
         }
 
@@ -90,7 +90,7 @@ contract Root is ERC721A, Ownable {
         );
         s_tokenidToTba[tokenId] = tba;
         s_addressToTokenid[tba] = _nextTokenId();
-        _safeMint(tba, MINT_AMOUNT);
+        _mint(tba, MINT_AMOUNT);
     }
 
     // approve functions
