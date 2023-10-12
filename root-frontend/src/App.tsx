@@ -2,7 +2,7 @@
 // import "@fontsource/noto-serif-jp"
 // import "@fontsource-variable/noto-sans-jp"
 import { ChakraProvider } from "@chakra-ui/react"
-import "@Biconomy/web3-auth/dist/src/style.css"
+import "@biconomy/web3-auth/dist/src/style.css"
 import theme from "./theme"
 import Layout from "./components/Layout"
 import { createContext, useState } from "react"
