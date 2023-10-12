@@ -21,7 +21,6 @@ import User from "./User"
 import { ProviderContext, RootContext, SmartAccountContext } from "../App"
 import Transfer from "./Transfer"
 import { Bundler, IBundler } from "@biconomy/bundler"
-import { set } from "react-hook-form"
 
 export const LogoutContext = createContext<{
   logout: () => void

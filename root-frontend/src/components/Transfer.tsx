@@ -8,6 +8,7 @@ import { ProviderContext, RootContext, SmartAccountContext } from "../App"
 import { useContext, useEffect, useState } from "react"
 import { ethers } from "ethers"
 import { IHybridPaymaster, PaymasterMode, SponsorUserOperationDto } from "@biconomy/paymaster"
+import { parseUnits } from "ethers/lib/utils"
 
 interface State {
   tokenId: number
@@ -40,6 +41,7 @@ const Transfer: React.FC = () => {
 
   const handleOnSubmit = async (data: FormData) => {
     try {
+      // gas less tx
       // const headers = new Headers()
       // headers.append("Content-Type", "application/json")
       // if (import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY) {
@@ -81,38 +83,56 @@ const Transfer: React.FC = () => {
         tokenId,
       ])
       console.log(encodedTransferData)
-      const tbaInterface = new ethers.utils.Interface(ERC6551AccountProxyAbi)
-      const encodedExecuteData = tbaInterface.encodeFunctionData("execute", [
+      // const tbaInterface = new ethers.utils.Interface(ERC6551AccountProxyAbi)
+      // const encodedExecuteData = tbaInterface.encodeFunctionData("execute", [
+      //   tbaAddr,
+      //   0,
+      //   encodedTransferData,
+      //   0,
+      // ])
+      // console.log(encodedExecuteData)
+      // const tx = {
+      //   to: tbaAddr,
+      //   data: encodedExecuteData,
+      // }
+      // let partialUserOp = await smartAccount?.buildUserOp([tx])
+      // console.log(partialUserOp)
+      // const biconomyPaymaster = smartAccount?.paymaster as IHybridPaymaster<SponsorUserOperationDto>
+      // let paymasterServiceData: SponsorUserOperationDto = {
+      //   mode: PaymasterMode.SPONSORED,
+      //   smartAccountInfo: {
+      //     name: "BICONOMY",
+      //     version: "2.0.0",
+      //   },
+      // }
+      // console.log(paymasterServiceData)
+      // const paymasterAndDataResponse = await biconomyPaymaster.getPaymasterAndData(
+      //   partialUserOp!,
+      //   paymasterServiceData
+      // )
+
+      // partialUserOp!.paymasterAndData = paymasterAndDataResponse.paymasterAndData
+      // const userOpResponse = await smartAccount?.sendUserOp(partialUserOp!)
+      // console.log("userOpHash", userOpResponse)
+      // const { receipt } = await userOpResponse!.wait()
+      // console.log("txHash", receipt.transactionHash)
+
+      // user paid tx
+      const tba = new ethers.Contract(tbaAddr, ERC6551AccountProxyAbi, provider!)
+      const executeTx = await tba.populateTransaction.execute(
         tbaAddr,
-        0,
+        parseUnits("0"),
         encodedTransferData,
-        0,
-      ])
-      console.log(encodedExecuteData)
+        parseUnits("0")
+      )
       const tx = {
         to: tbaAddr,
-        data: encodedExecuteData,
+        data: executeTx.data,
       }
-      let partialUserOp = await smartAccount?.buildUserOp([tx])
-      console.log(partialUserOp)
-      const biconomyPaymaster = smartAccount?.paymaster as IHybridPaymaster<SponsorUserOperationDto>
-      let paymasterServiceData: SponsorUserOperationDto = {
-        mode: PaymasterMode.SPONSORED,
-        smartAccountInfo: {
-          name: "BICONOMY",
-          version: "2.0.0",
-        },
-      }
-      console.log(paymasterServiceData)
-      const paymasterAndDataResponse = await biconomyPaymaster.getPaymasterAndData(
-        partialUserOp!,
-        paymasterServiceData
-      )
-
-      partialUserOp!.paymasterAndData = paymasterAndDataResponse.paymasterAndData
-      const userOpResponse = await smartAccount?.sendUserOp(partialUserOp!)
+      let userOp = await smartAccount?.buildUserOp([tx])
+      const userOpResponse = await smartAccount?.sendUserOp(userOp!)
       console.log("userOpHash", userOpResponse)
-      const { receipt } = await userOpResponse!.wait()
+      const { receipt } = await userOpResponse!.wait(1)
       console.log("txHash", receipt.transactionHash)
     } catch (error) {
       console.log(error)
