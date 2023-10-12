@@ -2156,16 +2156,6 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
-"@fontsource-variable/noto-sans-jp@^5.0.14":
-  version "5.0.14"
-  resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-jp/-/noto-sans-jp-5.0.14.tgz#30923a752584e3a8e9918e01cf48d40a51e8e852"
-  integrity sha512-DfwE4hytYe7tPJxccpOiYdOFrO6JJToZAb3jAmjZxcAgUnj4dZqfyY6RSuTsKi6Q9r1skaElnGVT8XmHTl9LDA==
-
-"@fontsource/noto-serif-jp@^5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-serif-jp/-/noto-serif-jp-5.0.7.tgz#2c7c43c363bee26e147dac84f2acea3fea752b68"
-  integrity sha512-PmSyT38FAgCB1ouqTY7NRfV0kSdVmk/tL4ePKX4HZ890aquJmPCtus1xiqMjf4BjrKdv0qTAcBF3ywoSC/UJAw==
-
 "@gnosis.pm/safe-core-sdk-types@^1.4.0", "@gnosis.pm/safe-core-sdk-types@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-core-sdk-types/-/safe-core-sdk-types-1.7.0.tgz#40b9e922780310bc40783b7cd5ac82b2ffe5a7bc"
@@ -5681,6 +5671,11 @@ emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
+
+empty-module@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/empty-module/-/empty-module-0.0.2.tgz#13b4dd8d4afeddd35e50c18dcd788c51087f1545"
+  integrity sha512-NFzPF5kG18UwYoRaXIylf8mpFEGOePZmKnbv3WUsEFxPe0w8NXPovJfm8t+tYoKwYmyRdQ2bZUizl/EiElJ7+g==
 
 encode-utf8@^1.0.2:
   version "1.0.3"
