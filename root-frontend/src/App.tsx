@@ -2,7 +2,7 @@
 import { ChakraProvider } from "@chakra-ui/react"
 import "@biconomy/web3-auth/dist/src/style.css"
 // import Layout from "./components/Layout"
-import { createContext, useState } from "react"
+import { createContext /*, useState */ } from "react"
 import { BiconomySmartAccount } from "@biconomy/account"
 import { ethers } from "ethers"
 // import { BrowserRouter } from "react-router-dom"
