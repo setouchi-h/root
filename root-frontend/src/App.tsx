@@ -1,11 +1,11 @@
 // import "./App.css"
 import { ChakraProvider } from "@chakra-ui/react"
 import "@biconomy/web3-auth/dist/src/style.css"
-// import Layout from "./components/Layout"
-import { createContext /*, useState */ } from "react"
+import Layout from "./components/Layout"
+import { createContext, useState } from "react"
 import { BiconomySmartAccount } from "@biconomy/account"
 import { ethers } from "ethers"
-// import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom"
 
 export const SmartAccountContext = createContext<{
   smartAccount: BiconomySmartAccount | null
@@ -23,13 +23,13 @@ export const RootContext = createContext<{
 }>({ root: null, setRoot: () => {} })
 
 function App() {
-  // const [smartAccount, setSmartAccount] = useState<BiconomySmartAccount | null>(null)
-  // const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
-  // const [root, setRoot] = useState<ethers.Contract | null>(null)
+  const [smartAccount, setSmartAccount] = useState<BiconomySmartAccount | null>(null)
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
+  const [root, setRoot] = useState<ethers.Contract | null>(null)
 
   return (
     <ChakraProvider>
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <SmartAccountContext.Provider value={{ smartAccount, setSmartAccount }}>
           <ProviderContext.Provider value={{ provider, setProvider }}>
             <RootContext.Provider value={{ root, setRoot }}>
@@ -37,8 +37,7 @@ function App() {
             </RootContext.Provider>
           </ProviderContext.Provider>
         </SmartAccountContext.Provider>
-      </BrowserRouter> */}
-      aaa
+      </BrowserRouter>
     </ChakraProvider>
   )
 }
