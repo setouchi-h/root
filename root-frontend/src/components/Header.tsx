@@ -1,4 +1,4 @@
-import { Flex, Heading, Spacer, Button } from "@chakra-ui/react"
+import { Flex, Heading, Spacer, Button, Image } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
 import { BiconomySmartAccount } from "@biconomy/account"
 
@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ login, smartAccount, isLoading }) => {
       align="center"
       width="100%"
       height="48px"
-      bg="blackAlpha.500"
+      bg="#FFD500"
       position="fixed"
       top="0"
       left="0"
@@ -25,18 +25,21 @@ const Header: React.FC<HeaderProps> = ({ login, smartAccount, isLoading }) => {
     >
       <Flex width="90%" align="center">
         <Link to="/">
-          <Heading color="white" as="h6" size="xs" ml="2">
-            ROOT NFT
-          </Heading>
+          <Flex align="center" ml="1">
+            <Image src="/root.png" objectFit="cover" boxSize="30px" />
+            <Heading as="h6" size="sm" ml="2">
+              root
+            </Heading>
+          </Flex>
         </Link>
         <Spacer />
         {!smartAccount && (
-          <Button size="sm" variant="outline" color="white" isLoading={isLoading} onClick={login}>
+          <Button size="sm" isLoading={isLoading} onClick={login}>
             ログイン
           </Button>
         )}
         {!!smartAccount && (
-          <Button size="sm" variant="outline" color="white" onClick={() => navigate("/user")}>
+          <Button size="sm" onClick={() => navigate("/user")}>
             マイページ
           </Button>
         )}

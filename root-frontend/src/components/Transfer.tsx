@@ -1,14 +1,22 @@
-import { Button, Flex, FormControl, FormLabel, Input, Stack, Text } from "@chakra-ui/react"
-import { useLocation } from "react-router-dom"
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react"
+import { useLocation, useNavigate } from "react-router-dom"
 import MiniNftBox from "./MiniNftBox"
 import { useForm } from "react-hook-form"
 import ERC6551AccountProxyAbi from "../../constants/ERC6551AccountProxy.json"
 import RootAbi from "../../constants/Root.json"
 import { ProviderContext, RootContext, SmartAccountContext } from "../App"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { ethers } from "ethers"
 import { IHybridPaymaster, PaymasterMode, SponsorUserOperationDto } from "@biconomy/paymaster"
-import { parseUnits } from "ethers/lib/utils"
 
 interface State {
   tokenId: number
@@ -24,9 +32,13 @@ const Transfer: React.FC = () => {
   const { provider } = useContext(ProviderContext)
   const { root } = useContext(RootContext)
   const { smartAccount } = useContext(SmartAccountContext)
+
   const location = useLocation()
   const { tokenId, tokenURI, tbaAddr } = location.state as State
-  console.log(tbaAddr)
+
+  const toast = useToast()
+
+  const navigate = useNavigate()
 
   const {
     register,
@@ -42,100 +54,116 @@ const Transfer: React.FC = () => {
   const handleOnSubmit = async (data: FormData) => {
     try {
       // gas less tx
-      // const headers = new Headers()
-      // headers.append("Content-Type", "application/json")
-      // if (import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY) {
-      //   headers.append("authToken", import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY)
-      // }
-      // if (import.meta.env.VITE_BICONOMY_API_KEY) {
-      //   headers.append("apiKey", import.meta.env.VITE_BICONOMY_API_KEY)
-      // }
-      // fetch(
-      //   "https://paymaster-dashboard-backend.prod.biconomy.io/api/v2/public/sdk/smart-contract",
-      //   {
-      //     method: "POST",
-      //     body: JSON.stringify({
-      //       name: "TBA",
-      //       address: tbaAddr,
-      //       abi: JSON.stringify(ERC6551AccountProxyAbi),
-      //       whitelistedMethods: [],
-      //     }),
-      //     headers: headers,
-      //   }
-      // )
-      //   .then(async (response) => {
-      //     const data = await response.json()
-      //     console.log(data)
-      //     if (data.statusCode === 400) {
-      //       return
-      //     }
-      //     return data
-      //   })
-      //   .then((json) => console.log(json))
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
+      const headers = new Headers()
+      headers.append("Content-Type", "application/json")
+      if (import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY) {
+        headers.append("authToken", import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY)
+      }
+      if (import.meta.env.VITE_BICONOMY_API_KEY) {
+        headers.append("apiKey", import.meta.env.VITE_BICONOMY_API_KEY)
+      }
+      fetch(
+        "https://paymaster-dashboard-backend.prod.biconomy.io/api/v2/public/sdk/smart-contract",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: "TBA",
+            address: tbaAddr,
+            abi: JSON.stringify(ERC6551AccountProxyAbi),
+            whitelistedMethods: ["execute"],
+          }),
+          headers: headers,
+        }
+      )
+        .then(async (response) => {
+          const data = await response.json()
+          console.log(data)
+          if (data.statusCode === 400) {
+            return
+          }
+          return data
+        })
+        .then((json) => console.log(json))
+        .catch((err) => {
+          console.log(err)
+        })
 
       const rootInterface = new ethers.utils.Interface(RootAbi)
       const encodedTransferData = rootInterface.encodeFunctionData("transferFrom", [
-        await smartAccount?.getSmartAccountAddress(),
+        tbaAddr,
         data.address,
         tokenId,
       ])
-      console.log(encodedTransferData)
       // const tbaInterface = new ethers.utils.Interface(ERC6551AccountProxyAbi)
       // const encodedExecuteData = tbaInterface.encodeFunctionData("execute", [
-      //   tbaAddr,
+      //   root?.address,
       //   0,
       //   encodedTransferData,
       //   0,
       // ])
-      // console.log(encodedExecuteData)
-      // const tx = {
-      //   to: tbaAddr,
-      //   data: encodedExecuteData,
-      // }
-      // let partialUserOp = await smartAccount?.buildUserOp([tx])
-      // console.log(partialUserOp)
-      // const biconomyPaymaster = smartAccount?.paymaster as IHybridPaymaster<SponsorUserOperationDto>
-      // let paymasterServiceData: SponsorUserOperationDto = {
-      //   mode: PaymasterMode.SPONSORED,
-      //   smartAccountInfo: {
-      //     name: "BICONOMY",
-      //     version: "2.0.0",
-      //   },
-      // }
-      // console.log(paymasterServiceData)
-      // const paymasterAndDataResponse = await biconomyPaymaster.getPaymasterAndData(
-      //   partialUserOp!,
-      //   paymasterServiceData
-      // )
-
-      // partialUserOp!.paymasterAndData = paymasterAndDataResponse.paymasterAndData
-      // const userOpResponse = await smartAccount?.sendUserOp(partialUserOp!)
-      // console.log("userOpHash", userOpResponse)
-      // const { receipt } = await userOpResponse!.wait()
-      // console.log("txHash", receipt.transactionHash)
-
-      // user paid tx
       const tba = new ethers.Contract(tbaAddr, ERC6551AccountProxyAbi, provider!)
       const executeTx = await tba.populateTransaction.execute(
-        tbaAddr,
-        parseUnits("0"),
+        root?.address,
+        0,
         encodedTransferData,
-        parseUnits("0")
+        0
       )
       const tx = {
         to: tbaAddr,
         data: executeTx.data,
       }
-      let userOp = await smartAccount?.buildUserOp([tx])
-      const userOpResponse = await smartAccount?.sendUserOp(userOp!)
+      let partialUserOp = await smartAccount?.buildUserOp([tx])
+      partialUserOp!.verificationGasLimit = 1000000
+      console.log(partialUserOp)
+      const biconomyPaymaster = smartAccount?.paymaster as IHybridPaymaster<SponsorUserOperationDto>
+      let paymasterServiceData: SponsorUserOperationDto = {
+        mode: PaymasterMode.SPONSORED,
+      }
+      console.log(paymasterServiceData)
+      const paymasterAndDataResponse = await biconomyPaymaster.getPaymasterAndData(
+        partialUserOp!,
+        paymasterServiceData
+      )
+      partialUserOp!.paymasterAndData = paymasterAndDataResponse.paymasterAndData
+      const userOpResponse = await smartAccount?.sendUserOp(partialUserOp!)
       console.log("userOpHash", userOpResponse)
-      const { receipt } = await userOpResponse!.wait(1)
+      const { receipt } = await userOpResponse!.wait()
       console.log("txHash", receipt.transactionHash)
+
+      // user paid tx
+      // const tba = new ethers.Contract(tbaAddr, ERC6551AccountProxyAbi, provider!)
+      // const executeTx = await tba.populateTransaction.execute(
+      //   root?.address,
+      //   0,
+      //   encodedTransferData,
+      //   0
+      // )
+      // const tx = {
+      //   to: tbaAddr,
+      //   data: executeTx.data,
+      // }
+      // let userOp = await smartAccount?.buildUserOp([tx])
+      // const userOpResponse = await smartAccount?.sendUserOp(userOp!)
+      // console.log("userOpHash", userOpResponse)
+      // const { receipt } = await userOpResponse!.wait(1)
+      // console.log("txHash", receipt.transactionHash)
+      toast({
+        title: "Transfer Success",
+        description: "送信しました",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      })
+      navigate("/")
     } catch (error) {
       console.log(error)
+      toast({
+        title: "Transfer Failed",
+        description: "送信に失敗しました",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
     }
   }
   const handleOnError = () => {}

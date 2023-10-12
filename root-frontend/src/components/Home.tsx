@@ -4,8 +4,6 @@ import NftBox from "./NftBox"
 import { RootContext, SmartAccountContext } from "../App"
 import MiniNftBox from "./MiniNftBox"
 import { Link } from "react-router-dom"
-import ERC6551AccountProxyAbi from "../../constants/ERC6551AccountProxy.json"
-import { ethers } from "ethers"
 
 const Home: React.FC = () => {
   const { smartAccount } = useContext(SmartAccountContext)
@@ -21,6 +19,10 @@ const Home: React.FC = () => {
     setIsGetRootLoading(true)
     const tokenId = await root?.getTokenIdFromAddress(await smartAccount?.getSmartAccountAddress())
     setTokenId(tokenId.toNumber())
+    if (tokenId.toNumber() === 0) {
+      setIsGetRootLoading(false)
+      return
+    }
     const tokenUri = await root?.tokenURI(tokenId)
     setTokenURI(tokenUri)
     setIsGetRootLoading(false)
@@ -29,38 +31,12 @@ const Home: React.FC = () => {
   const getMitama = async () => {
     setIsGetMitamaLoading(true)
     const tba = await root?.getTbaFromTokenId(tokenId)
-    if (tba === "0x0000000000000000000000000000000000000000") return
+    if (tba === "0x0000000000000000000000000000000000000000") {
+      setIsGetMitamaLoading(false)
+      return
+    }
     console.log(tba)
     setTba(tba)
-    // const headers = new Headers()
-    // headers.append("Content-Type", "application/json")
-    // if (import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY) {
-    //   headers.append("authToken", import.meta.env.VITE_BICONOMY_DASHBOARD_AUTH_KEY)
-    // }
-    // if (import.meta.env.VITE_BICONOMY_API_KEY) {
-    //   headers.append("apiKey", import.meta.env.VITE_BICONOMY_API_KEY)
-    // }
-    // fetch("https://paymaster-dashboard-backend.prod.biconomy.io/api/v2/public/sdk/smart-contract", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     name: "TBA",
-    //     address: tba,
-    //     abi: JSON.stringify(ERC6551AccountProxyAbi),
-    //     whitelistedMethods: ["fallback"],
-    //   }),
-    //   headers: headers,
-    // })
-    //   .then(async (response) => {
-    //     const data = await response.json()
-    //     if (data.statusCode === 400) {
-    //       return
-    //     }
-    //     return data
-    //   })
-    //   .then((json) => console.log(json))
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
     const startId = (await root?.getTokenIdFromAddress(tba))?.toNumber()
     const tempData: number[] = []
     let currentId = startId
@@ -89,17 +65,14 @@ const Home: React.FC = () => {
   return !isGetRootLoading ? (
     tokenId !== 0 ? (
       <>
-        <Heading mt="5" ml="5" size="xl">
-          根（ROOT）
-        </Heading>
         <NftBox tokenURI={tokenURI} tokenId={tokenId} />
         <Heading mt="5" ml="5" size="xl">
           分け御霊
         </Heading>
         {!isGetMitamaLoading ? (
-          <Flex align="center" justify="center" mt="2">
+          <Flex align="center" mt="2">
             {mitamas.length > 0 ? (
-              <Wrap ml="5">
+              <Wrap ml="5" mb="5">
                 {mitamas.map((tokenId) => (
                   <WrapItem key={tokenId}>
                     <Link
@@ -112,7 +85,7 @@ const Home: React.FC = () => {
                 ))}
               </Wrap>
             ) : (
-              <Flex justify="center" align="center" mt="2">
+              <Flex width="100vw" justify="center" mt="2" mb="10">
                 <Text>You do NOT have 分け御霊</Text>
               </Flex>
             )}
@@ -124,8 +97,9 @@ const Home: React.FC = () => {
         )}
       </>
     ) : (
-      <Flex justify="center" align="center" height="100vh" width="100vw">
-        <Text>You do NOT have Root NFT</Text>
+      <Flex direction="column" justify="center" align="center" height="100vh" width="100vw">
+        <Text>You do NOT have root NFT</Text>
+        <Text>root保有者から御霊を分けてもらってください。</Text>
       </Flex>
     )
   ) : (
