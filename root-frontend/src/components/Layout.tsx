@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from "react"
 import { useState, useEffect, useRef } from "react"
 import { Flex, Spinner, Text } from "@chakra-ui/react"
-import "@Biconomy/web3-auth/dist/src/style.css"
 import SocialLogin from "@biconomy/web3-auth"
 import { ChainId } from "@biconomy/core-types"
 import { ethers } from "ethers"
