@@ -10,7 +10,7 @@ import {
   DEFAULT_ENTRYPOINT_ADDRESS,
 } from "@biconomy/account"
 import { IPaymaster, BiconomyPaymaster } from "@biconomy/paymaster"
-import Header from "../components/Header"
+import Header from "./Header"
 import { Route, Routes } from "react-router-dom"
 import networkConfig from "../constants/networkMapping.json"
 import rootAbi from "../constants/Root.json"
