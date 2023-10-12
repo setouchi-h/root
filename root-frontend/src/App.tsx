@@ -29,7 +29,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <SmartAccountContext.Provider value={{ smartAccount, setSmartAccount }}>
           <ProviderContext.Provider value={{ provider, setProvider }}>
             <RootContext.Provider value={{ root, setRoot }}>
@@ -37,7 +37,8 @@ function App() {
             </RootContext.Provider>
           </ProviderContext.Provider>
         </SmartAccountContext.Provider>
-      </BrowserRouter>
+      </BrowserRouter> */}
+      aaa
     </ChakraProvider>
   )
 }
