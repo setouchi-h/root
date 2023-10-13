@@ -21,14 +21,14 @@ We make network that you can engage a region by using smartcontract.
 
 ## Concept
 What is NFT? I define it as the Spirit. In this way, I can explain many things as shown in the following diagram.
-<img width="943" alt="rootroom " src="<img width="940" alt=" rootdiagram" src="https://github.com/0xalty/root/assets/129202655/3078a25b-ceb5-4da2-a9d6-96990a97e44c">
-">
+<img width="940" alt=" rootdiagram" src="https://github.com/0xalty/root/assets/129202655/76301cd1-eb70-4de8-b6af-5337034ea976">
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Function
-The Spirit can be shared with others; in ERC-6551, we attempted to transfer NFTs from SBTs and convert the NFTs we received to SBTs.
-<img width="940" alt=" rootdiagram" src="<img width="943" alt="rootroom " src="https://github.com/0xalty/root/assets/129202655/76301cd1-eb70-4de8-b6af-5337034ea976">
-">
+The Spirit can be shared with others; in ERC-6551, we attempted to transfer NFTs from SBTs and convert the NFT we received to SBT.
+<img width="943" alt="rootroom" src=https://github.com/0xalty/root/assets/129202655/3078a25b-ceb5-4da2-a9d6-96990a97e44c">
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Contract
@@ -53,7 +53,7 @@ Smile every day
    ![qr20231013140950852](https://github.com/0xalty/root/assets/129202655/598dd68e-f114-45e1-a320-edf195687272)
 2. サイトへログインしてください<br />
    <img width="414" alt="スクリーンショット 2023-10-13 15 43 56" src="https://github.com/setouchi-h/root/assets/113189196/c64f1687-030c-47de-a49f-c78dc865b45d">
-3. rootを保有していない場合、マイページよりアドレスを確認し、root保有者にあなたのアドレスを共有してNFTを送信してもらって下さい<br />
+3. rootを保有していない場合、マイページよりアドレスを確認し、root保有者にあなたのアドレスを共有してNFTを送信していただいて下さい<br />
    <img width="414" alt="スクリーンショット 2023-10-13 15 48 41" src="https://github.com/setouchi-h/root/assets/113189196/293b69ba-cf04-41f7-a399-52616eed36fd">
    <img width="414" alt="スクリーンショット 2023-10-13 15 49 41" src="https://github.com/setouchi-h/root/assets/113189196/f134bbe3-7874-44fb-9533-ab6d16ddbf50">
 4. rootを保有している場合、あなたの分け御霊を最大３つ分けることができます<br />
