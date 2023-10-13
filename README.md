@@ -39,8 +39,8 @@ The contract: “Smile every day."
 There may be days when the person holding the NFT does not laugh, but I believe in it, which means there is a possibility of violating the contract, but I think that by having some discretion there, a truly trustworthy relationship can be established. People will come to those who are truly laughing. Blockchain will make that visible later.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-root series 1
-![root_smile](https://github.com/0xalty/root/assets/129202655/2380f638-075c-4293-9e11-548ba88fb685)
+root series 1<br />
+<img width="414" alt="スクリーンショット 2023-10-13 15 43 56" src="https://github.com/0xalty/root/assets/129202655/2380f638-075c-4293-9e11-548ba88fb685"><br />
 Smile every day
 
 <p align="right">(<a href="#top">back to top</a>)</p>
