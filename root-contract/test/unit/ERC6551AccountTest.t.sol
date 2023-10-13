@@ -17,7 +17,6 @@ contract ERC6551AccountTest is Test {
     address public RECIEVER = makeAddr("reciever");
 
     function setUp() public {
-        address owner = msg.sender;
         deployer = new DeployRoot();
         (root, erc6551Registry, implementation) = deployer.run();
     }
