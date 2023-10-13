@@ -13,7 +13,7 @@ type Metadata = {
 }
 
 const imageLocation = "./data/img/"
-let tokenUris: string[] = ["ipfs://QmdiKMjiabg7YPE5zcgqxDWuCJoP1y7MJSoBhGWsS7AFcu"]
+let tokenUris: string[] = ["ipfs://QmbfzGYYSZzyJcpk4QVbtSjY2u928p3nbMb3XbGXKZcB1v"]
 
 async function main() {
   tokenUris = []
