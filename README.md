@@ -21,13 +21,13 @@ We make network that you can engage a region by using smartcontract.
 
 ## Concept
 What is NFT? I define it as the Spirit. In this way, I can explain many things as shown in the following diagram.
-<img width="943" alt="rootroom " src="<img width="940" alt=" rootdiagram" src="https://github.com/0xalty/root/assets/129202655/76301cd1-eb70-4de8-b6af-5337034ea976">
+<img width="943" alt="rootroom " src="<img width="940" alt=" rootdiagram" src="https://github.com/0xalty/root/assets/129202655/3078a25b-ceb5-4da2-a9d6-96990a97e44c">
 ">
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Function
 The Spirit can be shared with others; in ERC-6551, we attempted to transfer NFTs from SBTs and convert the NFTs we received to SBTs.
-<img width="940" alt=" rootdiagram" src="<img width="943" alt="rootroom " src="https://github.com/0xalty/root/assets/129202655/3078a25b-ceb5-4da2-a9d6-96990a97e44c">
+<img width="940" alt=" rootdiagram" src="<img width="943" alt="rootroom " src="https://github.com/0xalty/root/assets/129202655/76301cd1-eb70-4de8-b6af-5337034ea976">
 ">
 <p align="right">(<a href="#top">back to top</a>)</p>
 
