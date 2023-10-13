@@ -40,7 +40,7 @@ There may be days when the person holding the NFT does not laugh, but I believe 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 root series 1
-![root_smile](https://github.com/0xalty/root/assets/129202655/54c1af47-7f42-48de-a71f-0d2ac13215cd)
+![root_smile](https://github.com/0xalty/root/assets/129202655/2380f638-075c-4293-9e11-548ba88fb685)
 Smile every day
 
 <p align="right">(<a href="#top">back to top</a>)</p>
