@@ -44,16 +44,18 @@ Smile every day
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-## How to get NFT
-1. 下のQRコードもしくはURL(https://root-nezu.vercel.app/)よりサイトにアクセスして下さい
-   ![qr20231013140950852](https://github.com/0xalty/root/assets/129202655/c0d1f6ea-5188-4f6c-afe2-9e58bc8f50db)
-   <img width="1439" alt="スクリーンショット 2023-10-13 14 04 17" src="https://github.com/0xalty/root/assets/129202655/f7671d16-bc8c-4ae1-bf04-b02c4871e741">
-2. サイトへログインしてください
-   <img width="1440" alt="スクリーンショット 2023-10-13 14 05 19" src="https://github.com/0xalty/root/assets/129202655/a2ea6e9f-c0e6-401f-93db-f29bc415403d">
-   <img width="1440" alt="スクリーンショット 2023-10-13 14 06 06" src="https://github.com/0xalty/root/assets/129202655/fac50bea-6f79-47aa-95d7-02bc2241e310">
-3. rootを保有していない場合、マイページよりアドレスを確認し、root保有者にそのアドレスを共有しNFTを送信してもらって下さい
-<img width="1440" alt="スクリーンショット 2023-10-13 14 08 46" src="https://github.com/0xalty/root/assets/129202655/f05b2c18-5e0d-48c4-932e-64bf9075346f">
-4. rootを保有している場合、あなたの分け御霊を
-<img width="1440" alt="スクリーンショット 2023-10-13 14 07 32" src="https://github.com/0xalty/root/assets/129202655/be4ebcae-a921-4fd7-812f-45e98e1178e4">
 
+## How to get NFT
+1. 下のURLもしくはQRコードよりサイトにアクセスして下さい<br />
+   https://root-nezu.vercel.app/<br />
+   ![qr20231013140950852](https://github.com/0xalty/root/assets/129202655/c0d1f6ea-5188-4f6c-afe2-9e58bc8f50db)
+2. サイトへログインしてください<br />
+   <img width="414" alt="スクリーンショット 2023-10-13 15 43 56" src="https://github.com/setouchi-h/root/assets/113189196/c64f1687-030c-47de-a49f-c78dc865b45d">
+3. rootを保有していない場合、マイページよりアドレスを確認し、root保有者にあなたのアドレスを共有してNFTを送信してもらって下さい<br />
+   <img width="414" alt="スクリーンショット 2023-10-13 15 48 41" src="https://github.com/setouchi-h/root/assets/113189196/293b69ba-cf04-41f7-a399-52616eed36fd">
+   <img width="414" alt="スクリーンショット 2023-10-13 15 49 41" src="https://github.com/setouchi-h/root/assets/113189196/f134bbe3-7874-44fb-9533-ab6d16ddbf50">
+4. rootを保有している場合、あなたの分け御霊を最大３つ分けることができます<br />
+   <img width="421" alt="スクリーンショット 2023-10-13 15 38 17" src="https://github.com/setouchi-h/root/assets/113189196/4b5e9af2-f4f9-4d2e-9547-5f32f4c9210a">
+   <img width="421" alt="スクリーンショット 2023-10-13 15 41 07" src="https://github.com/setouchi-h/root/assets/113189196/2c9fa982-a292-48a0-b89c-0b51db22f5f8">
+   
 <p align="right">(<a href="#top">back to top</a>)</p>
