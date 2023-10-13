@@ -50,7 +50,7 @@ Smile every day
 ## How to get NFT
 1. 下のURLもしくはQRコードよりサイトにアクセスして下さい<br />
    https://root-nezu.vercel.app/<br />
-   ![qr20231013140950852](https://github.com/0xalty/root/assets/129202655/c0d1f6ea-5188-4f6c-afe2-9e58bc8f50db)
+   ![qr20231013140950852](https://github.com/0xalty/root/assets/129202655/598dd68e-f114-45e1-a320-edf195687272)
 2. サイトへログインしてください<br />
    <img width="414" alt="スクリーンショット 2023-10-13 15 43 56" src="https://github.com/setouchi-h/root/assets/113189196/c64f1687-030c-47de-a49f-c78dc865b45d">
 3. rootを保有していない場合、マイページよりアドレスを確認し、root保有者にあなたのアドレスを共有してNFTを送信してもらって下さい<br />
