@@ -19,7 +19,10 @@ contract Root is ERC721A, Ownable {
     mapping(uint256 => address) private s_tokenidToTba;
     mapping(uint256 => bool) private s_isNoTransferable;
 
-    constructor(string memory tokenUri, address erc6551registry, address erc6551Account) ERC721A("Root", "ROOT") {
+    constructor(string memory tokenUri, address erc6551registry, address erc6551Account)
+        ERC721A("Root", "ROOT")
+        Ownable(msg.sender)
+    {
         uint256 nextTokenId = _nextTokenId();
         s_tokenUri = tokenUri;
         i_erc6551Registry = erc6551registry;

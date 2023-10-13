@@ -1,0 +1,12 @@
+[submodule "root-contract/lib/forge-std"]
+	path = root-contract/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "root-contract/lib/openzeppelin-contracts"]
+	path = root-contract/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "root-contract/lib/foundry-devops"]
+	path = root-contract/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops
+[submodule "root-contract/lib/ERC721A"]
+	path = root-contract/lib/ERC721A
+	url = https://github.com/chiru-labs/ERC721A
