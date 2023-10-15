@@ -41,7 +41,7 @@ const Home: React.FC = () => {
     const tempData: number[] = []
     let currentId = startId
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 6; i++) {
       const owner = await root?.ownerOf(currentId)
 
       if (owner === tba) {

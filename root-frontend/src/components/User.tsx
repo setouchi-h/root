@@ -57,7 +57,7 @@ const User: React.FC = () => {
           </Flex>
           <Text>
             <Link
-              href={`https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://mumbai.polygonscan.com/address/${address}&choe=UTF-8`}
+              href={`https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://polygonscan.com/address/${address}&choe=UTF-8`}
               isExternal
               color="blue.500"
             >
