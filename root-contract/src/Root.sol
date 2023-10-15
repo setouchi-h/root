@@ -10,7 +10,7 @@ contract Root is ERC721A, Ownable {
     error Root__NotTransferable();
     error Root__AlreadyOwnRoot();
 
-    uint256 private constant MINT_AMOUNT = 3;
+    uint256 private constant MINT_AMOUNT = 6;
     uint256 private constant SALT = 0;
     address private immutable i_erc6551Registry;
     address private immutable i_erc6551Account;
