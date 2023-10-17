@@ -24,6 +24,8 @@ contract HelperConfig is Script {
             activeNetworkConfig = getSepoliaConfig();
         } else if (block.chainid == 80001) {
             activeNetworkConfig = getMumbaiConfig();
+        } else if (block.chainid == 137) {
+            activeNetworkConfig = getPolygonConfig();
         } else {
             activeNetworkConfig = getOrCreateAnvilConfig();
         }
@@ -46,6 +48,17 @@ contract HelperConfig is Script {
             uri: "ipfs://QmbfzGYYSZzyJcpk4QVbtSjY2u928p3nbMb3XbGXKZcB1v",
             erc6551Registry: 0x8C6865E81B87967ef9B08Ead0336AAe6F4438647,
             implementation: 0x05521E56B8456e78750E705BAae0525D6198172B,
+            salt: 0,
+            initData: "",
+            deployerKey: vm.envUint("PRIVATE_KEY")
+        });
+    }
+
+    function getPolygonConfig() public view returns (NetworkConfig memory) {
+        return NetworkConfig({
+            uri: "ipfs://QmbfzGYYSZzyJcpk4QVbtSjY2u928p3nbMb3XbGXKZcB1v",
+            erc6551Registry: 0x8Fb20557F702cBd71D6725bd2bFbDFe033114a65,
+            implementation: 0xc743258B8009d55BBD0733E57d1Ae2CdDB49507d,
             salt: 0,
             initData: "",
             deployerKey: vm.envUint("PRIVATE_KEY")
