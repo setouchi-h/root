@@ -30,9 +30,8 @@ const paymaster: IPaymaster = new BiconomyPaymaster({
 })
 
 const bundler: IBundler = new Bundler({
-  bundlerUrl:
-    "https://bundler.biconomy.io/api/v2/80001/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
-  chainId: ChainId.POLYGON_MUMBAI,
+  bundlerUrl: import.meta.env.VITE_BUNDLER_URL,
+  chainId: ChainId.POLYGON_MAINNET,
   entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
 })
 
@@ -64,8 +63,8 @@ const Layout: React.FC = () => {
       const signature2 = await socialLoginSDK.whitelistUrl("http://127.0.0.1:5173")
       const signature3 = await socialLoginSDK.whitelistUrl("http://localhost:5173")
       await socialLoginSDK.init({
-        chainId: ethers.utils.hexValue(ChainId.POLYGON_MUMBAI).toString(),
-        network: "testnet",
+        chainId: ethers.utils.hexValue(ChainId.POLYGON_MAINNET).toString(),
+        network: "mainnet",
         whitelistUrls: {
           "https://root-nezu.vercel.app": signature1,
           "http://127.0.0.1:5173": signature2,
@@ -93,7 +92,7 @@ const Layout: React.FC = () => {
     try {
       const biconomySmartAccountConfig: BiconomySmartAccountConfig = {
         signer: web3Provider.getSigner(),
-        chainId: ChainId.POLYGON_MUMBAI,
+        chainId: ChainId.POLYGON_MAINNET,
         bundler: bundler,
         paymaster: paymaster,
       }
@@ -130,7 +129,7 @@ const Layout: React.FC = () => {
     /** コントラクトの作成 */
     if (!provider) return
     const addresses: contractAddressesInterface = networkConfig
-    const chainId = ChainId.POLYGON_MUMBAI.toString()
+    const chainId = ChainId.POLYGON_MAINNET.toString()
     const rootAddr = addresses[chainId].Root[0]
     const root = new ethers.Contract(rootAddr, rootAbi, provider)
     setRoot(root)
